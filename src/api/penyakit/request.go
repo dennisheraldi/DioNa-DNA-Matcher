@@ -1,6 +1,6 @@
 package penyakit
 
 type PenyakitRequest struct {
-	Nama      string `json:"nama"		validate:"required"`
-	RantaiDNA string `json:"rantai_dna"	validate:"required"`
+	NamaPenyakit string `json:"nama_penyakit"		validate:"required"`
+	DNASeq       string `json:"dna_seq"	validate:"required"`
 }

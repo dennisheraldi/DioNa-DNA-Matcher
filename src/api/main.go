@@ -32,11 +32,12 @@ func main(){
 
 	v1 := router.Group("/v1")
 
-	v1.GET("/penyakit", penyakitHandler.GetAllPenyakitHandler)
-	v1.GET("/penyakit/:id", penyakitHandler.GetPenyakitHandler)
+	// v1.GET("/penyakit", penyakitHandler.GetAllPenyakitHandler)
+	// v1.GET("/penyakit/:id", penyakitHandler.GetPenyakitHandler)
+
 	v1.POST("/penyakit", penyakitHandler.CreatePenyakitHandler)
-	v1.PUT("/penyakit/:id", penyakitHandler.UpdatePenyakitHandler)
-	v1.DELETE("/penyakit/:id", penyakitHandler.DeletePenyakitHandler)
+	// v1.PUT("/penyakit/:id", penyakitHandler.UpdatePenyakitHandler)
+	// v1.DELETE("/penyakit/:id", penyakitHandler.DeletePenyakitHandler)
 	
 	router.Run()
 }

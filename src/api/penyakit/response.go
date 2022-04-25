@@ -1,7 +1,6 @@
 package penyakit
 
 type PenyakitResponse struct {
-	ID        int    `json:"id"`
-	Nama      string `json:"nama"`
-	RantaiDNA string `json:"rantai_dna"`
+	NamaPenyakit string `json:"nama_penyakit"`
+	DNASeq       string `json:"dna_seq"`
 }
