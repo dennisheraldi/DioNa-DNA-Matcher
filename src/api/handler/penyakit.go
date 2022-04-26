@@ -70,6 +70,7 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 		}
 		c.JSON(http.StatusBadRequest, gin.H{
 			"errors": errorMessages,
+			"status_code": http.StatusBadRequest,
 		})
 		return
 	}
@@ -80,6 +81,7 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 		penyakitResponse := convertToPenyakitResponse(penyakit)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Penyakit already exist",
+			"status_code": http.StatusBadRequest,
 			"data": penyakitResponse,
 		})
 		return
@@ -90,6 +92,7 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
+			"status_code": http.StatusBadRequest,
 		})
 		return
 	}
@@ -98,6 +101,7 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"data": penyakitResponse,
+		"status_code": http.StatusOK,
 	})
 }
 

@@ -53,12 +53,21 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 		}
 		c.JSON(http.StatusBadRequest, gin.H{
 			"errors": errorMessages,
+			"status_code": http.StatusBadRequest,
 		})
 		return
 	}
 
 	// Mencari data Penyakit
 	penyakit , _ := h.penyakitService.FindByName(riwayatSubmit.NamaPenyakit)
+
+	if penyakit.NamaPenyakit == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Penyakit tidak ditemukan",
+			"status_code" : http.StatusBadRequest,
+		})
+		return
+	}
 
 	// Melakukan pencocokan DNA
 	status := patternFound(riwayatSubmit.DNAPasien, penyakit.DNAPenyakit)
@@ -68,7 +77,6 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 	riwayatRequest := riwayat.RiwayatRequest{
 		TanggalPred: dateToday,
 		NamaPasien: riwayatSubmit.NamaPasien,
-		DNAPasien: riwayatSubmit.DNAPasien,
 		NamaPenyakit: riwayatSubmit.NamaPenyakit,
 		Status: status,
 	}
@@ -77,6 +85,7 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
+			"status_code" : http.StatusBadRequest,
 		})
 		return
 	}
@@ -85,6 +94,7 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 
 	c.JSON(http.StatusOK, gin.H{
 		"data": riwayatResponse,
+		"status_code" : http.StatusOK,
 	})
 }
 
@@ -94,7 +104,6 @@ func convertToRiwayatResponse(r riwayat.Riwayat) riwayat.RiwayatResponse {
 	return riwayat.RiwayatResponse{
 		TanggalPred: tanggalPred,
 		NamaPasien: r.NamaPasien,
-		DNAPasien: r.DNAPasien,
 		NamaPenyakit: r.NamaPenyakit,
 		Status: r.Status,
 	}
@@ -102,8 +111,8 @@ func convertToRiwayatResponse(r riwayat.Riwayat) riwayat.RiwayatResponse {
 
 func patternFound(t, p string) string {
 	if method.KMP(t, p) != -1{
-		return "Positif"
+		return "True"
 	} else {
-		return "Negatif"
+		return "False"
 	}
 }
