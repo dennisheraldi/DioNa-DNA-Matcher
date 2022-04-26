@@ -74,10 +74,10 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 		return
 	}
 
-	penyakits, err := h.penyakitService.FindByName(penyakitRequest.NamaPenyakit)
+	penyakit, err := h.penyakitService.FindByName(penyakitRequest.NamaPenyakit)
 
-	if len(penyakits) != 0 {
-		penyakitResponse := convertToPenyakitResponse(penyakits[0])
+	if len(penyakit.NamaPenyakit) != 0 {
+		penyakitResponse := convertToPenyakitResponse(penyakit)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Penyakit already exist",
 			"data": penyakitResponse,
@@ -85,7 +85,7 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 		return
 	}
 
-	penyakit, err := h.penyakitService.Create(penyakitRequest)
+	penyakit, err = h.penyakitService.Create(penyakitRequest)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -159,6 +159,6 @@ func (h *penyakitHandler) DeletePenyakitHandler(c *gin.Context) {
 func convertToPenyakitResponse(p penyakit.Penyakit) penyakit.PenyakitResponse {
 	return penyakit.PenyakitResponse{
 		NamaPenyakit:      p.NamaPenyakit,
-		DNASeq: p.DNASeq,
+		DNAPenyakit: p.DNAPenyakit,
 	}
 }

@@ -1,9 +1,12 @@
 package handler
 
 import (
+	"api/method"
+	"api/penyakit"
 	"api/riwayat"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -11,10 +14,11 @@ import (
 
 type riwayatHandler struct {
 	riwayatService riwayat.Service
+	penyakitService penyakit.Service
 }
 
-func NewRiwayatHandler(riwayatService riwayat.Service) *riwayatHandler {
-	return &riwayatHandler{riwayatService}
+func NewRiwayatHandler(riwayatService riwayat.Service, penyakitService penyakit.Service) *riwayatHandler {
+	return &riwayatHandler{riwayatService, penyakitService}
 }
 
 func (h *riwayatHandler) GetAllRiwayatHandler(c *gin.Context){
@@ -39,9 +43,8 @@ func (h *riwayatHandler) GetAllRiwayatHandler(c *gin.Context){
 }
 
 func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
-	var riwayatRequest riwayat.RiwayatRequest
-
-	err := c.ShouldBindJSON(&riwayatRequest)
+	var riwayatSubmit riwayat.RiwayatSubmit
+	err := c.ShouldBindJSON(&riwayatSubmit) // Mula-mula menerima submit nama pasien, dna pasien, dan nama penyakit
 	if err != nil {
 		errorMessages := []string{}
 		for _, e := range err.(validator.ValidationErrors) {
@@ -52,6 +55,22 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 			"errors": errorMessages,
 		})
 		return
+	}
+
+	// Mencari data Penyakit
+	penyakit , _ := h.penyakitService.FindByName(riwayatSubmit.NamaPenyakit)
+
+	// Melakukan pencocokan DNA
+	status := patternFound(riwayatSubmit.DNAPasien, penyakit.DNAPenyakit)
+
+	dateToday := time.Now().Format("2006-01-02")
+
+	riwayatRequest := riwayat.RiwayatRequest{
+		TanggalPred: dateToday,
+		NamaPasien: riwayatSubmit.NamaPasien,
+		DNAPasien: riwayatSubmit.DNAPasien,
+		NamaPenyakit: riwayatSubmit.NamaPenyakit,
+		Status: status,
 	}
 
 	riwayat, err := h.riwayatService.Create(riwayatRequest)
@@ -75,7 +94,16 @@ func convertToRiwayatResponse(r riwayat.Riwayat) riwayat.RiwayatResponse {
 	return riwayat.RiwayatResponse{
 		TanggalPred: tanggalPred,
 		NamaPasien: r.NamaPasien,
+		DNAPasien: r.DNAPasien,
 		NamaPenyakit: r.NamaPenyakit,
 		Status: r.Status,
+	}
+}
+
+func patternFound(t, p string) string {
+	if method.KMP(t, p) != -1{
+		return "Positif"
+	} else {
+		return "Negatif"
 	}
 }

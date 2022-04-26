@@ -3,7 +3,7 @@ package penyakit
 type Service interface {
 	FindAll() ([]Penyakit, error)
 	FindByID(id int) (Penyakit, error)
-	FindByName(name string) ([]Penyakit, error)
+	FindByName(name string) (Penyakit, error)
 	Create(penyakitRequest PenyakitRequest) (Penyakit, error)
 	Update(ID int, penyakitRequest PenyakitRequest) (Penyakit, error)
 	Delete(ID int) (Penyakit, error)
@@ -25,14 +25,14 @@ func (s *service) FindByID(id int) (Penyakit, error) {
 	return s.repository.FindByID(id)
 }
 
-func (s *service) FindByName(name string) ([]Penyakit, error) {
+func (s *service) FindByName(name string) (Penyakit, error) {
 	return s.repository.FindByName(name)
 }
 
 func (s *service) Create(penyakitRequest PenyakitRequest) (Penyakit, error) {
 	penyakit := Penyakit{
 		NamaPenyakit: penyakitRequest.NamaPenyakit,
-		DNASeq:       penyakitRequest.DNASeq,
+		DNAPenyakit:  penyakitRequest.DNAPenyakit,
 	}
 	return s.repository.Create(penyakit)
 }
@@ -43,7 +43,7 @@ func (s *service) Update(ID int, penyakitRequest PenyakitRequest) (Penyakit, err
 		return penyakit, err
 	}
 	penyakit.NamaPenyakit = penyakitRequest.NamaPenyakit
-	penyakit.DNASeq = penyakitRequest.DNASeq
+	penyakit.DNAPenyakit = penyakitRequest.DNAPenyakit
 
 	return s.repository.Update(penyakit)
 }

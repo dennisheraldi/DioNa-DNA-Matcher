@@ -29,6 +29,7 @@ func (s *service) Create(riwayatRequest RiwayatRequest) (Riwayat, error) {
 	riwayat := Riwayat{
 		TanggalPred:  tanggalPred,
 		NamaPasien:   riwayatRequest.NamaPasien,
+		DNAPasien:   riwayatRequest.DNAPasien,
 		NamaPenyakit: riwayatRequest.NamaPenyakit,
 		Status:       riwayatRequest.Status,
 	}

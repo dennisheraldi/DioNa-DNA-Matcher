@@ -32,7 +32,7 @@ func main(){
 
 	riwayatRepository := riwayat.NewRepository(db)
 	riwayatService := riwayat.NewService(riwayatRepository)
-	riwayatHandler := handler.NewRiwayatHandler(riwayatService)
+	riwayatHandler := handler.NewRiwayatHandler(riwayatService, penyakitService)
 
 	router := gin.Default()
 
