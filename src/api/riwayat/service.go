@@ -4,9 +4,9 @@ import "time"
 
 type Service interface {
 	FindAll() ([]Riwayat, error)
-	// FindByNamaPenyakit(string) ([]Riwayat, error)
-	// FindByTanggalPred(string) ([]Riwayat, error)
-	// FindByNamaTanggal(string, string) ([]Riwayat, error)
+	FindByPenyakit(string) ([]Riwayat, error)
+	FindByTanggal(string) ([]Riwayat, error)
+	FindByTanggalPenyakit(string, string) ([]Riwayat, error)
 	Create(riwayatRequest RiwayatRequest) (Riwayat, error)
 }
 
@@ -20,6 +20,18 @@ func NewService(repository Repository) *service {
 
 func (s *service) FindAll() ([]Riwayat, error) {
 	return s.repository.FindAll()
+}
+
+func (s *service) FindByPenyakit(nama_penyakit string) ([]Riwayat, error) {
+	return s.repository.FindByPenyakit(nama_penyakit)
+}
+
+func (s *service) FindByTanggal(tanggal_pred string) ([]Riwayat, error) {
+	return s.repository.FindByTanggal(tanggal_pred)
+}
+
+func (s *service) FindByTanggalPenyakit(tanggal_pred, nama_penyakit string) ([]Riwayat, error) {
+	return s.repository.FindByTanggalPenyakit(tanggal_pred, nama_penyakit)
 }
 
 func (s *service) Create(riwayatRequest RiwayatRequest) (Riwayat, error) {

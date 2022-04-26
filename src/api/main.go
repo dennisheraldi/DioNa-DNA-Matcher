@@ -40,12 +40,9 @@ func main(){
 
 	// v1.GET("/penyakit", penyakitHandler.GetAllPenyakitHandler)
 	// v1.GET("/penyakit/:id", penyakitHandler.GetPenyakitHandler)
-
 	v1.POST("/penyakit", penyakitHandler.CreatePenyakitHandler)
-	// v1.PUT("/penyakit/:id", penyakitHandler.UpdatePenyakitHandler)
-	// v1.DELETE("/penyakit/:id", penyakitHandler.DeletePenyakitHandler)
-	
 	v1.POST("/riwayat", riwayatHandler.CreateRiwayatHandler)
+	v1.GET("/riwayat", riwayatHandler.QueryRiwayatHandler)
 
 	router.Run()
 }

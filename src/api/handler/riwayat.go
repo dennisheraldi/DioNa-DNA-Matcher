@@ -98,6 +98,52 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 	})
 }
 
+func (h *riwayatHandler) QueryRiwayatHandler(c *gin.Context){
+	tanggal := c.Query("tanggal")
+	namaPenyakit := c.Query("nama_penyakit")
+
+	riwayats, err := h.riwayatService.FindAll()
+
+	if tanggal == "" && namaPenyakit == "" { // kalau tidak ada tanggal maupun nama penyakit
+		riwayats, err = h.riwayatService.FindAll() 
+	} else if tanggal != "" && namaPenyakit == "" { // pencarian berdasarkan tanggal
+		riwayats, err = h.riwayatService.FindByTanggal(tanggal)
+	} else if tanggal == "" && namaPenyakit != "" { // pencarian berdasarkan nama penyakit
+		riwayats, err = h.riwayatService.FindByPenyakit(namaPenyakit)
+	} else { // pencarian berdasarkan tanggal dan nama penyakit
+		riwayats, err = h.riwayatService.FindByTanggalPenyakit(tanggal, namaPenyakit)
+	}
+
+	// jika query tidak valid, maka akan menampilkan error
+	if len(riwayats) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Data tidak ditemukan",
+			"status_code" : http.StatusBadRequest,
+		})
+		return
+	}
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err,
+			"status_code" : http.StatusBadRequest,
+		})
+		return
+	}
+
+	var riwayatResponses []riwayat.RiwayatResponse
+
+	for _, r := range riwayats {
+		riwayatResponse := convertToRiwayatResponse(r)
+		riwayatResponses = append(riwayatResponses, riwayatResponse)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": riwayatResponses,
+		"status_code" : http.StatusOK,
+	})
+}
+
 func convertToRiwayatResponse(r riwayat.Riwayat) riwayat.RiwayatResponse {
 	tanggalPred := r.TanggalPred.Format("2006-01-02")
 	

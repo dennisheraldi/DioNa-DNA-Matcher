@@ -4,11 +4,8 @@ import "gorm.io/gorm"
 
 type Repository interface {
 	FindAll() ([]Penyakit, error)
-	FindByID(id int) (Penyakit, error)
 	FindByName(name string) (Penyakit, error)
 	Create(penyakit Penyakit) (Penyakit, error)
-	Update(penyakit Penyakit) (Penyakit, error)
-	Delete(penyakit Penyakit) (Penyakit, error)
 }
 
 type repository struct {
@@ -25,12 +22,6 @@ func (r *repository) FindAll() ([]Penyakit, error) {
 	return penyakits, err
 }
 
-func (r *repository) FindByID(id int) (Penyakit, error) {
-	var penyakit Penyakit
-	err := r.db.First(&penyakit, id).Error
-	return penyakit, err
-}
-
 func (r *repository) FindByName(name string) (Penyakit, error) {
 	var penyakit Penyakit
 	err := r.db.Where("nama_penyakit = ?", name).Find(&penyakit).Error
@@ -39,15 +30,5 @@ func (r *repository) FindByName(name string) (Penyakit, error) {
 
 func (r *repository) Create(penyakit Penyakit) (Penyakit, error) {
 	err := r.db.Create(&penyakit).Error
-	return penyakit, err
-}
-
-func (r *repository) Update(penyakit Penyakit) (Penyakit, error) {
-	err := r.db.Save(&penyakit).Error
-	return penyakit, err
-}
-
-func (r *repository) Delete(penyakit Penyakit) (Penyakit, error) {
-	err := r.db.Delete(&penyakit).Error
 	return penyakit, err
 }
