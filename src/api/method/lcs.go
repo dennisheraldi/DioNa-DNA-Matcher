@@ -15,3 +15,7 @@ func LcsCount(p string, q string, x int, y int) int {
 		}
 	}
 }
+
+func LcsResult(p string, q string) float32 {
+	return (float32(LcsCount(p, q, len(p), len(q)) / len(q)))
+}
