@@ -1,6 +1,6 @@
 package penyakit
 
 type Penyakit struct {
-	NamaPenyakit string `gorm: "primaryKey"`
+	NamaPenyakit string
 	DNASeq       string
 }

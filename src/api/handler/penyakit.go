@@ -77,9 +77,10 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 	penyakits, err := h.penyakitService.FindByName(penyakitRequest.NamaPenyakit)
 
 	if len(penyakits) != 0 {
+		penyakitResponse := convertToPenyakitResponse(penyakits[0])
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Penyakit already exist",
-			"data": penyakits,
+			"data": penyakitResponse,
 		})
 		return
 	}
@@ -93,8 +94,10 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 		return
 	}
 
+	penyakitResponse := convertToPenyakitResponse(penyakit)
+
 	c.JSON(http.StatusOK, gin.H{
-		"data": penyakit,
+		"data": penyakitResponse,
 	})
 }
 

@@ -3,6 +3,7 @@ package main
 import (
 	"api/handler"
 	"api/penyakit"
+	"api/riwayat"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -21,12 +22,17 @@ func main(){
 	}
 
 	db.AutoMigrate(penyakit.Penyakit{})
+	db.AutoMigrate(riwayat.Riwayat{})
 
 	// API layering
 	// Request -> Handler -> Service -> Repository -> Database
 	penyakitRepository := penyakit.NewRepository(db)
 	penyakitService := penyakit.NewService(penyakitRepository)
 	penyakitHandler := handler.NewPenyakitHandler(penyakitService)
+
+	riwayatRepository := riwayat.NewRepository(db)
+	riwayatService := riwayat.NewService(riwayatRepository)
+	riwayatHandler := handler.NewRiwayatHandler(riwayatService)
 
 	router := gin.Default()
 
@@ -39,6 +45,8 @@ func main(){
 	// v1.PUT("/penyakit/:id", penyakitHandler.UpdatePenyakitHandler)
 	// v1.DELETE("/penyakit/:id", penyakitHandler.DeletePenyakitHandler)
 	
+	v1.POST("/riwayat", riwayatHandler.CreateRiwayatHandler)
+
 	router.Run()
 }
 
