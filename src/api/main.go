@@ -6,15 +6,16 @@ import (
 	"api/riwayat"
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-func main(){
+func main() {
 
-	dsn := "root:@tcp(localhost:3306)/dnamatching?charset=utf8&parseTime=True&loc=Local"
+	dsn := "thirafinajwan:thirafi123@tcp(localhost:3306)/dnamatching?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -35,7 +36,10 @@ func main(){
 	riwayatHandler := handler.NewRiwayatHandler(riwayatService, penyakitService)
 
 	router := gin.Default()
-
+	// cfg := cors.DefaultConfig()
+	// cfg.AllowMethods = []string{"GET", "POST"}
+	// cfg.AllowAllOrigins = true
+	router.Use(cors.Default())
 	v1 := router.Group("/v1")
 
 	// v1.GET("/penyakit", penyakitHandler.GetAllPenyakitHandler)
@@ -46,6 +50,3 @@ func main(){
 
 	router.Run()
 }
-
-
-
