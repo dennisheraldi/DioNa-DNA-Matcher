@@ -1,4 +1,4 @@
-package method
+package library
 
 // KMP is a string matching algorithm that uses the Knuth-Morris-Pratt algorithm.
 

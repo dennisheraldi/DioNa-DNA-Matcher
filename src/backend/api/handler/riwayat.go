@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"api/method"
+	"api/library"
 	"api/penyakit"
 	"api/riwayat"
 	"fmt"
@@ -69,8 +69,19 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 		return
 	}
 
+	// Mengecek validasi DNA Pasien
+	isDNAValid := library.Sanitasi(riwayatSubmit.DNAPasien)
+
+	if !isDNAValid {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": "DNA Penyakit tidak valid",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+	}
+
 	// Melakukan pencocokan DNA
-	status := patternFound(riwayatSubmit.DNAPasien, penyakit.DNAPenyakit)
+	status, similarity := checkDNA(riwayatSubmit.DNAPasien, penyakit.DNAPenyakit)
 
 	dateToday := time.Now().Format("2006-01-02")
 
@@ -78,6 +89,7 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 		TanggalPred: dateToday,
 		NamaPasien: riwayatSubmit.NamaPasien,
 		NamaPenyakit: riwayatSubmit.NamaPenyakit,
+		Similarity: similarity,
 		Status: status,
 	}
 
@@ -151,14 +163,20 @@ func convertToRiwayatResponse(r riwayat.Riwayat) riwayat.RiwayatResponse {
 		TanggalPred: tanggalPred,
 		NamaPasien: r.NamaPasien,
 		NamaPenyakit: r.NamaPenyakit,
+		Similarity: r.Similarity,
 		Status: r.Status,
 	}
 }
 
-func patternFound(t, p string) string {
-	if method.KMP(t, p) != -1{
-		return "True"
-	} else {
-		return "False"
+func checkDNA(pasien, penyakit string) (string,float64) {
+	if library.KMP(pasien, penyakit) != -1{ // Pengecekan terlebih dahulu dengan string matching metode KMP
+		return "True", 100.00
+	} else { // Jika tidak cocok, cek similarity dengan metode LCS
+		similarity := library.LcsResult(pasien, penyakit)
+		if similarity >= 80 { // Jika similarity lebih dari 80%, maka cocok
+			return "True", similarity
+		} else { 
+			return "False", similarity
+		}
 	}
 }

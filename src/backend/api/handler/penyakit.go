@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"api/library"
 	"fmt"
 	"net/http"
 
@@ -55,12 +56,23 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 		return
 	}
 
+	isDNAValid := library.Sanitasi(penyakitRequest.DNAPenyakit)
+
+	if !isDNAValid {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": "DNA Penyakit tidak valid",
+			"status_code": http.StatusBadRequest,
+		})
+		return
+	}
+
+
 	penyakit, err := h.penyakitService.FindByName(penyakitRequest.NamaPenyakit)
 
 	if len(penyakit.NamaPenyakit) != 0 {
 		penyakitResponse := convertToPenyakitResponse(penyakit)
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Penyakit already exist",
+			"error": "Nama penyakit sudah ada",
 			"status_code": http.StatusBadRequest,
 			"data": penyakitResponse,
 		})

@@ -2,8 +2,10 @@ package main
 
 import (
 	"api/handler"
+	"api/library"
 	"api/penyakit"
 	"api/riwayat"
+	"fmt"
 	"log"
 
 	"github.com/gin-contrib/cors"
@@ -14,13 +16,14 @@ import (
 )
 
 func main() {
-
-	dsn := "thirafinajwan:thirafi123@tcp(localhost:3306)/dnamatching?charset=utf8&parseTime=True&loc=Local"
+	dsn := "root:@tcp(localhost:3306)/dnamatching?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("Db connection error")
 	}
+
+	fmt.Println(library.LcsResult("PAPQAGTCA", "AGTC"))
 
 	db.AutoMigrate(penyakit.Penyakit{})
 	db.AutoMigrate(riwayat.Riwayat{})

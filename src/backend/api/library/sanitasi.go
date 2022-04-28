@@ -1,10 +1,10 @@
-package method
+package library
 
 import (
 	"regexp"
 )
 
-func sanitasi(p string) bool {
+func Sanitasi(p string) bool {
 	sanitasi, _ := regexp.Compile("[^AGTC]")
 	matchResult := sanitasi.FindString(p)
 	if len(matchResult) != 0 {

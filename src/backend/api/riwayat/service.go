@@ -42,6 +42,7 @@ func (s *service) Create(riwayatRequest RiwayatRequest) (Riwayat, error) {
 		TanggalPred:  tanggalPred,
 		NamaPasien:   riwayatRequest.NamaPasien,
 		NamaPenyakit: riwayatRequest.NamaPenyakit,
+		Similarity:   riwayatRequest.Similarity,
 		Status:       riwayatRequest.Status,
 	}
 	return s.repository.Create(riwayat)
