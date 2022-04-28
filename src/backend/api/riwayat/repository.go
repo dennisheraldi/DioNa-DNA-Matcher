@@ -26,19 +26,19 @@ func (r *repository) FindAll() ([]Riwayat, error) {
 
 func (r *repository) FindByPenyakit(penyakit string) ([]Riwayat, error) {
 	var Riwayats []Riwayat
-	err := r.db.Where("nama_penyakit = ?", penyakit).Find(&Riwayats).Error
+	err := r.db.Where("nama_penyakit LIKE ?", "%"+penyakit+"%").Find(&Riwayats).Error
 	return Riwayats, err
 }
 
 func (r *repository) FindByTanggal(tanggal string) ([]Riwayat, error) {
 	var Riwayats []Riwayat
-	err := r.db.Where("tanggal_pred = ?", tanggal).Find(&Riwayats).Error
+	err := r.db.Where("tanggal_pred LIKE ?", "%"+tanggal+"%").Find(&Riwayats).Error
 	return Riwayats, err
 }
 
 func (r *repository) FindByTanggalPenyakit(tanggal string, penyakit string) ([]Riwayat, error) {
 	var Riwayats []Riwayat
-	err := r.db.Where("tanggal_pred = ? AND nama_penyakit = ?", tanggal, penyakit).Find(&Riwayats).Error
+	err := r.db.Where("tanggal_pred LIKE ? AND nama_penyakit LIKE ?", "%"+tanggal+"%", "%"+penyakit+"%").Find(&Riwayats).Error
 	return Riwayats, err
 }
 

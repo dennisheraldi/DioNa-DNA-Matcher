@@ -2,10 +2,8 @@ package main
 
 import (
 	"api/handler"
-	"api/library"
 	"api/penyakit"
 	"api/riwayat"
-	"fmt"
 	"log"
 
 	"github.com/gin-contrib/cors"
@@ -22,8 +20,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Db connection error")
 	}
-
-	fmt.Println(library.LcsResult("PAPQAGTCA", "AGTC"))
 
 	db.AutoMigrate(penyakit.Penyakit{})
 	db.AutoMigrate(riwayat.Riwayat{})
