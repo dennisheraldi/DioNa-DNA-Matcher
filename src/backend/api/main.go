@@ -35,14 +35,9 @@ func main() {
 	riwayatHandler := handler.NewRiwayatHandler(riwayatService, penyakitService)
 
 	router := gin.Default()
-	// cfg := cors.DefaultConfig()
-	// cfg.AllowMethods = []string{"GET", "POST"}
-	// cfg.AllowAllOrigins = true
 	router.Use(cors.Default())
 	v1 := router.Group("/v1")
 
-	// v1.GET("/penyakit", penyakitHandler.GetAllPenyakitHandler)
-	// v1.GET("/penyakit/:id", penyakitHandler.GetPenyakitHandler)
 	v1.POST("/penyakit", penyakitHandler.CreatePenyakitHandler)
 	v1.POST("/riwayat", riwayatHandler.CreateRiwayatHandler)
 	v1.GET("/riwayat", riwayatHandler.QueryRiwayatHandler)

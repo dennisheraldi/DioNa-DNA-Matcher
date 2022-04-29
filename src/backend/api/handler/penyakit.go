@@ -50,7 +50,7 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 			errorMessages = append(errorMessages, errorMessage)
 		}
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": errorMessages,
+			"error": errorMessages,
 			"status_code": http.StatusBadRequest,
 		})
 		return
@@ -60,7 +60,7 @@ func (h *penyakitHandler) CreatePenyakitHandler(c *gin.Context) {
 
 	if !isDNAValid {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": "DNA Penyakit tidak valid",
+			"error": "DNA Penyakit tidak valid",
 			"status_code": http.StatusBadRequest,
 		})
 		return

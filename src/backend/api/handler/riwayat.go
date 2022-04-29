@@ -74,14 +74,14 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 
 	if !isDNAValid {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errors": "DNA Penyakit tidak valid",
+			"error": "DNA Pasien tidak valid",
 			"status_code": http.StatusBadRequest,
 		})
 		return
 	}
 
 	// Melakukan pencocokan DNA
-	status, similarity := checkDNA(riwayatSubmit.DNAPasien, penyakit.DNAPenyakit)
+	status, similarity := library.CheckDNA(riwayatSubmit.DNAPasien, penyakit.DNAPenyakit)
 
 	dateToday := time.Now().Format("2006-01-02")
 
@@ -111,12 +111,20 @@ func (h *riwayatHandler) CreateRiwayatHandler(c *gin.Context){
 }
 
 func (h *riwayatHandler) QueryRiwayatHandler(c *gin.Context){
-	tanggal := c.Query("tanggal")
-	namaPenyakit := c.Query("nama_penyakit")
+	query := c.Query("query")
+
+	// parsing query
+	tanggal, namaPenyakit := library.QueryCheck(query)
 
 	riwayats, err := h.riwayatService.FindAll()
 
-	if tanggal == "" && namaPenyakit == "" { // kalau tidak ada tanggal maupun nama penyakit
+	if tanggal == "" && namaPenyakit == "" { 
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Query kosong",
+			"status_code" : http.StatusBadRequest,
+		})
+		return
+	} else if tanggal == "all" && namaPenyakit == "all" { // kalau tidak ada tanggal maupun nama penyakit
 		riwayats, err = h.riwayatService.FindAll() 
 	} else if tanggal != "" && namaPenyakit == "" { // pencarian berdasarkan tanggal
 		riwayats, err = h.riwayatService.FindByTanggal(tanggal)
@@ -168,15 +176,3 @@ func convertToRiwayatResponse(r riwayat.Riwayat) riwayat.RiwayatResponse {
 	}
 }
 
-func checkDNA(pasien, penyakit string) (string,float64) {
-	if library.KMP(pasien, penyakit) != -1{ // Pengecekan terlebih dahulu dengan string matching metode KMP
-		return "True", 100.00
-	} else { // Jika tidak cocok, cek similarity dengan metode LCS
-		similarity := library.LcsResult(pasien, penyakit)
-		if similarity >= 80 { // Jika similarity lebih dari 80%, maka cocok
-			return "True", similarity
-		} else { 
-			return "False", similarity
-		}
-	}
-}
