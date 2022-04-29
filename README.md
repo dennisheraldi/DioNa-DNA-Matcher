@@ -55,7 +55,7 @@ Jalankan basis data tersebut menggunakan query
 ```
 <br>
 
-Buat tabel baru bernama 'penyakits' untuk menyimpan data penyakit menggunakan query berikut
+Buat tabel baru bernama **penyakits** untuk menyimpan data penyakit menggunakan query berikut
 ```
   create table penyakits( 
   nama_penyakit varchar(100) not null, 
@@ -65,7 +65,7 @@ Buat tabel baru bernama 'penyakits' untuk menyimpan data penyakit menggunakan qu
 ```
 <br>
 
-Buat tabel baru bernama 'riwayats' untuk menyimpan data riwayat penyakit menggunakan query berikut
+Buat tabel baru bernama **riwayats** untuk menyimpan data riwayat penyakit menggunakan query berikut
 ```
   create table riwayats( 
   tanggal_pred date not null, 
@@ -77,21 +77,19 @@ Buat tabel baru bernama 'riwayats' untuk menyimpan data riwayat penyakit menggun
   ); 
 ```
 
+## Usage
 ### Menjalankan Backend
-Buka folder 'api' dengan terminal dan gunakan perintah berikut
+Buka folder **api** dengan terminal dan gunakan perintah berikut
 ```
   go run main.go
 ```
 
 ### Menjalankan Frontend
-Buka folder 'frontend' dengan terminal setelah database sudah dibuat dan bagian backend sudah jalan dengan menggunakan perintah berikut
+Buka folder **frontend** dengan terminal setelah database sudah dibuat dan bagian backend sudah jalan dengan menggunakan perintah berikut
 ```
   npm install
   npm start
 ```
-
-## Usage
-
 ## Contact
 
 Dibuat oleh Kelompok 23
