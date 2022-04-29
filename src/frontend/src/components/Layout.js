@@ -137,7 +137,7 @@ function Layout(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 2, pt: 5, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         className="allbg">
         {/* <CssBaseline /> */}
         <div className={classes.page}>

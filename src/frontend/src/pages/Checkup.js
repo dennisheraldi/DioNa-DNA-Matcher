@@ -25,7 +25,6 @@ export default function Checkup() {
     const [error, setError] = useState(null);
     const [checkupResult, setCheckupResult] = useState(null);
     const [payload, setPayload] = useState(null);
-    const checkDNA = new RegExp('^[ACGT]+$')
     const fRead = new FileReader();
     const [nama_input, setNamaInput] = useState('');
     const [penyakit_input, setPenyakitInput] = useState('');
@@ -55,7 +54,7 @@ export default function Checkup() {
                     setError(err);
                 } else {
                     setData(d);
-                    setCheckupResult(`${d.data.tanggal_pred} - ${d.data.nama_pasien} - ${d.data.nama_penyakit} - ${d.data.status}`);
+                    setCheckupResult(`${d.data.tanggal_pred} - ${d.data.nama_pasien} - ${d.data.nama_penyakit} - ${d.data.status} - ${d.data.similarity}`);
                 }
             }
         }
@@ -75,22 +74,13 @@ export default function Checkup() {
         const trimmedname = nama_input.trim();
         const trimmedpenyakit = penyakit_input.trim();
         const trimmeddna = dna_input.trim();
-        if (trimmedname.length === 0 || trimmedpenyakit.length === 0 || trimmeddna.length === 0) {
-            setResDisplay(true);
-            setError('Nama, Penyakit, dan DNA harus diisi');
-        }
-        else if (checkDNA.test(trimmeddna)) {
-            setResDisplay(true);
-            setDnaError(null);
-            setPayload({
-                nama_pasien: trimmedname,
-                dna_pasien: trimmeddna,
-                nama_penyakit: trimmedpenyakit
-            })
-        } else {
-            setResDisplay(false);
-            setDnaError('Invalid DNA');
-        }
+        setResDisplay(true);
+        setDnaError(null);
+        setPayload({
+            nama_pasien: nama_input.trim(),
+            dna_pasien: dna_input.trim(),
+            nama_penyakit: penyakit_input.trim()
+        })
 
     }
     return (

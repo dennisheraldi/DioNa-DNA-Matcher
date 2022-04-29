@@ -24,8 +24,6 @@ export default function AddPenyakit() {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
-
-    const checkDNA = new RegExp('^[ACGT]+$')
     const fRead = new FileReader();
     const [penyakit_input, setPenyakitInput] = useState('');
     const [dna_input, setDnaInput] = useState('');
@@ -68,21 +66,11 @@ export default function AddPenyakit() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (checkDNA.test(dna_input) && dna_input !== '') {
-            setResDisplay(true);
-            if (penyakit_input.trim().length > 0) {
-                setPayload({
-                    nama_penyakit: penyakit_input.trim(),
-                    dna_penyakit: dna_input.trim()
-                })
-            } else {
-                setError('Nama penyakit tidak boleh kosong');
-            }
-        } else {
-            setResDisplay(true);
-            setError('Failed Adding, Invalid DNA');
-        }
-
+        setResDisplay(true);
+        setPayload({
+            nama_penyakit: penyakit_input.trim(),
+            dna_penyakit: dna_input.trim()
+        })
     }
     return (
     <Card>
@@ -107,7 +95,7 @@ export default function AddPenyakit() {
                                 />
                             </Box>
                             <Box component={Grid} item boxShadow={0} xs={12} md={4} sx={{mb: 5}}>
-                                <Box sx={{fontSize: 12}}>DNA Sequence (.txt): {dna_filename}</Box>
+                                <Box sx={{fontSize: 12}}>DNA Sequence (.txt, max 255 char): {dna_filename}</Box>
                                 <Box component={Stack} direction="column" justifyContent="center">
                                     <Button
                                     variant="contained"
