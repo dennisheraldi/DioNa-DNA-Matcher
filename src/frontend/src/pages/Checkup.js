@@ -15,7 +15,7 @@ export default function Checkup() {
     useEffect(() => {
         document.title = pageTitle
      }, [pageTitle]);
-    const endpoint = "http://localhost:8080/v1/riwayat"
+    const endpoint = "https://dnamatch-api.herokuapp.com/v1/riwayat"
     const [resDisplay, setResDisplay] = useState(false);
     /* 
     tanggal, nama, penyakit, kemiripan, diagnosa

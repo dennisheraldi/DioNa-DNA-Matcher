@@ -16,7 +16,7 @@ export default function AddPenyakit() {
     useEffect(() => {
         document.title = pageTitle
      }, [pageTitle]);
-    const endpoint = "http://localhost:8080/v1/penyakit"
+    const endpoint = "https://dnamatch-api.herokuapp.com/v1/penyakit"
     const [resDisplay, setResDisplay] = useState(false);
     /* 
     tanggal, nama, penyakit, kemiripan, diagnosa

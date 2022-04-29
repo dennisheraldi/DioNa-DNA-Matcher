@@ -15,7 +15,7 @@ export default function CheckHistory() {
     useEffect(() => {
         document.title = pageTitle
      }, [pageTitle]);
-    const endpoint = `http://localhost:8080/v1/riwayat`
+    const endpoint = `https://dnamatch-api.herokuapp.com/v1/riwayat`
     const [resDisplay, setResDisplay] = useState(false);
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(false);
