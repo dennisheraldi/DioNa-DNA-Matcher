@@ -25,10 +25,12 @@ _Program ini dibuat sebagai pemenuhan Tugas Besar 3 IF2211 Strategi Algoritma Se
 ### Languages
 
 - Golang
+- JavaScript
 
 ### Frameworks / Libraries
 
 - Gorm
+- React
 
 ## Features
 
