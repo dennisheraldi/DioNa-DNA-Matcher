@@ -44,6 +44,12 @@ Fitur yang dihadirkan oleh website ini adalah:
 - Menghitung tingkat kemiripan DNA pengguna dengan DNA penyakit pada tes DNA
 
 ## Screenshots
+![image](https://user-images.githubusercontent.com/40627156/165942576-b936b187-bd1c-4dd6-ac1e-d8d56fabe553.png)
+
+![image](https://user-images.githubusercontent.com/40627156/165942721-255fac8b-ebf0-4856-bb49-ed2ca29f7c11.png)
+
+![image](https://user-images.githubusercontent.com/40627156/165942804-d892a2ce-1426-4a3b-aa40-c56d1963e9e2.png)
+
 
 ## Setup
 ### Menyiapkan Basis Data
