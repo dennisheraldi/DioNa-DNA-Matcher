@@ -26,11 +26,13 @@ _Program ini dibuat sebagai pemenuhan Tugas Besar 3 IF2211 Strategi Algoritma Se
 
 - Golang
 - JavaScript
+- MySQL
 
 ### Frameworks / Libraries
 
+- Gin
 - Gorm
-- React
+- ReactJS
 
 ## Features
 
