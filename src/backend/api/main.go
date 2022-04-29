@@ -14,7 +14,8 @@ import (
 )
 
 func main() {
-	dsn := "4isuGYYya5:Xxmdskrzr6@tcp(remotemysql.com:3306)/4isuGYYya5?charset=utf8&parseTime=True&loc=Local"
+	// dsn := "4isuGYYya5:Xxmdskrzr6@tcp(remotemysql.com:3306)/4isuGYYya5?charset=utf8&parseTime=True&loc=Local"
+	dsn := "root:@tcp(localhost:3306)/dnamatching?charset=utf8&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
