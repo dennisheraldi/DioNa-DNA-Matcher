@@ -16,7 +16,8 @@
 
 ## General Information
 
-<p> Sebuah aplikasi DNA Pattern Matching dengan memanfaatkan algoritma String Matching dan Regular Expression </p> <br>
+<p> Sebuah aplikasi DNA Pattern Matching dengan memanfaatkan algoritma String Matching dan Regular Expression </p> 
+<p> Dapat diakses melalui pranala berikut: https://dnamatch-fend.netlify.app/ <p>
 
 _Program ini dibuat sebagai pemenuhan Tugas Besar 3 IF2211 Strategi Algoritma Semester II 2021/2022._
 
